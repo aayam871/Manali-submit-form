@@ -5,6 +5,17 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  // Add CORS headers
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+  res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
+
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
+
   if (req.method === "POST") {
     const { name, option, reason } = req.body;
 
@@ -38,7 +49,7 @@ export default async function handler(
 
       if (error) {
         console.error('Supabase error:', error);
-        return res.status(500).json({ message: "Failed to save response" });
+        return res.status(500).json({ message: `Failed to save response: ${error.message}` });
       }
 
       return res

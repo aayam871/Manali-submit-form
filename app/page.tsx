@@ -58,7 +58,11 @@ export default function HomePage() {
         body: JSON.stringify(response),
       });
 
-      if (!res.ok) throw new Error("Failed to submit response");
+      const result = await res.json();
+      
+      if (!res.ok) {
+        throw new Error(result.message || "Failed to submit response");
+      }
 
       setSubmitted(true);
       setSubmitterName(name.trim());
