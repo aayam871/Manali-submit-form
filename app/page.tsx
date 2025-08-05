@@ -176,10 +176,9 @@ export default function HomePage() {
             {error}
           </p>
         )}
-
-        {submitted && submitterName && (
+        {submitted && (
           <p className="text-green-700 font-medium bg-green-100 px-4 py-2 rounded-lg border border-green-300">
-            Your response is submitted to <strong>{submitterName}</strong>.
+            Your response is submitted to <strong>iamregmi</strong>.
           </p>
         )}
 
