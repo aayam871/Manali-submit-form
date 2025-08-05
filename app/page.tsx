@@ -49,14 +49,12 @@ export default function HomePage() {
     try {
       const res = await fetch("/api/submit", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(response),
       });
-      if (!res.ok) {
-        throw new Error("Failed to submit response");
-      }
+
+      if (!res.ok) throw new Error("Failed to submit response");
+
       setSubmitted(true);
       setName("");
       setOption("");
@@ -67,29 +65,36 @@ export default function HomePage() {
   }
 
   return (
-    <main className="min-h-screen p-8 font-sans bg-background text-foreground">
-      <h1 className="text-4xl font-bold mb-6 text-center">Manali Trip 2082</h1>
+    <main className="min-h-screen px-4 py-10 bg-gradient-to-br from-gray-100 via-white to-gray-100 text-gray-900">
+      <h1 className="text-5xl font-extrabold text-center mb-10 text-blue-700 drop-shadow-md">
+        Manali Trip 2082
+      </h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-5 gap-4 mb-8">
-        {[1, 2, 3, 4, 5].map((num) => (
-          <div
-            key={num}
-            className="relative w-full h-48 rounded-lg overflow-hidden shadow-md"
-          >
-            <Image
-              src={`/images(${num}).jpg`}
-              alt={`Manali photo ${num}`}
-              fill
-              className="object-cover"
-              priority={num === 1}
-            />
-          </div>
-        ))}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4 mb-12 px-4">
+        {["images(1).jpg", "images(2).jpg", "images(3).jpg", "images(4).jpg", "images(5).jpg"].map(
+          (filename, index) => (
+            <div
+              key={index}
+              className="relative w-full h-48 rounded-lg overflow-hidden shadow-md hover:scale-105 transition-transform duration-300"
+            >
+              <Image
+                src={`/${filename}`}
+                alt={`Manali photo ${index + 1}`}
+                fill
+                className="object-cover"
+                priority={index === 0}
+              />
+            </div>
+          )
+        )}
       </div>
 
-      <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-4">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white rounded-lg shadow-lg max-w-xl mx-auto px-6 py-8 space-y-6"
+      >
         <div>
-          <label htmlFor="name" className="block font-medium mb-1">
+          <label htmlFor="name" className="block font-semibold mb-1">
             Name <span className="text-red-600">*</span>
           </label>
           <input
@@ -97,77 +102,64 @@ export default function HomePage() {
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full border border-gray-300 rounded px-3 py-2"
+            className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />
         </div>
 
         <div>
-          <label className="block font-medium mb-1">Choose an option</label>
-          <label className="inline-flex items-center mr-4">
-            <input
-              type="radio"
-              name="option"
-              value="Janxu"
-              checked={option === "Janxu"}
-              onChange={() => setOption("Janxu")}
-            />
-            <span className="ml-2">Janxu</span>
-          </label>
-          <label className="inline-flex items-center mr-4">
-            <input
-              type="radio"
-              name="option"
-              value="Janna"
-              checked={option === "Janna"}
-              onChange={() => setOption("Janna")}
-            />
-            <span className="ml-2">Janna</span>
-          </label>
+          <label className="block font-semibold mb-2">Choose an option</label>
+          <div className="flex gap-6">
+            <label className="inline-flex items-center">
+              <input
+                type="radio"
+                name="option"
+                value="Janxu"
+                checked={option === "Janxu"}
+                onChange={() => setOption("Janxu")}
+                className="accent-blue-600"
+              />
+              <span className="ml-2">Janxu</span>
+            </label>
+            <label className="inline-flex items-center">
+              <input
+                type="radio"
+                name="option"
+                value="Janna"
+                checked={option === "Janna"}
+                onChange={() => setOption("Janna")}
+                className="accent-blue-600"
+              />
+              <span className="ml-2">Janna</span>
+            </label>
+          </div>
         </div>
 
-        {option === "Janna" && (
+        {(option === "Janna" || option === "") && (
           <div>
-            <label htmlFor="reason" className="block font-medium mb-1">
-              Kina jannau? <span className="text-red-600">*</span>
-            </label>
-            <textarea
-              id="reason"
-              value={reason}
-              onChange={(e) => setReason(e.target.value)}
-              className="w-full border border-gray-300 rounded px-3 py-2"
-              rows={3}
-              required
-            />
-          </div>
-        )}
-
-        {option === "" && (
-          <div>
-            <label htmlFor="reason" className="block font-medium mb-1">
-              Kina fix xaina? Kunai Reason?{" "}
+            <label htmlFor="reason" className="block font-semibold mb-1">
+              {option === "Janna" ? "Kina jannau?" : "Kina fix xaina? Kunai Reason?"}{" "}
               <span className="text-red-600">*</span>
             </label>
             <textarea
               id="reason"
               value={reason}
               onChange={(e) => setReason(e.target.value)}
-              className="w-full border border-gray-300 rounded px-3 py-2"
+              className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               rows={3}
               required
             />
           </div>
         )}
 
-        {error && <p className="text-red-600">{error}</p>}
-
+        {error && <p className="text-red-600 font-medium">{error}</p>}
         {submitted && (
-          <p className="text-green-600">Response submitted successfully!</p>
+          <p className="text-green-600 font-medium">Response submitted successfully!</p>
         )}
 
         <button
           type="submit"
-          className="bg-primary-600 text-white px-4 py-2 rounded hover:bg-primary-700"
+          className="w-full bg-blue-600 text-white font-semibold py-2 rounded hover:bg-blue-700 transition-colors duration-200"
         >
           Submit
         </button>
