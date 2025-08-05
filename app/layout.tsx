@@ -24,7 +24,7 @@ html {
         `}</style>
 
         {/* ✅ Add favicon here without renaming */}
-        <link rel="icon" href="/images(2).jpg" type="image/jpeg" />
+        <link rel="icon" href="/images2.jpg" type="image/jpeg" />
         <title>Manali Trip</title>
       </head>
       <body>{children}</body>

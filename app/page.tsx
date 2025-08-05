@@ -70,35 +70,37 @@ export default function HomePage() {
 
   return (
     <main className="min-h-screen px-4 py-10 bg-gradient-to-br from-cyan-100 via-sky-200 to-blue-100 text-gray-900">
-      <h1 className="text-5xl font-extrabold text-center mb-10 text-blue-800 drop-shadow-md">
+      <h1 className="text-5xl font-extrabold text-center mb-6 text-blue-800 drop-shadow-md">
         Manali Trip 2082
       </h1>
 
+      {/* IMAGE GRID */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-12 px-4">
-        {[
-          "images (2).jpg",
-          "images (3).jpg",
-          "images (4).jpg",
-          "images (5).jpg",
-        ].map((filename, index) => (
-          <div
-            key={index}
-            className="relative w-full h-48 rounded-xl overflow-hidden shadow-lg hover:scale-105 transition-transform duration-300 border-2 border-white hover:border-blue-300"
-          >
-            <Image
-              src={`/${filename}`}
-              alt={`Manali photo ${index + 2}`}
-              fill
-              className="object-cover"
-              priority={index === 0}
-            />
-          </div>
-        ))}
+        {["images2.jpg", "images3.jpg", "images4.jpg", "images5.jpg"].map(
+          (filename, index) => (
+            <div
+              key={index}
+              className="relative w-full h-60 rounded-xl overflow-hidden shadow-lg hover:scale-105 transition-transform duration-300 border-2 border-white hover:border-blue-300"
+            >
+              <Image
+                src={`/${filename}`}
+                alt={`Manali photo ${index + 1}`}
+                fill
+                className="object-cover"
+                priority={index === 0}
+              />
+            </div>
+          )
+        )}
       </div>
 
+      {/* FORM */}
+      <div className="max-w-xl text-2xl mx-auto mb-4 text-center text-blue-800 font-bold ">
+        Submit your form with genuine response
+      </div>
       <form
         onSubmit={handleSubmit}
-        className="bg-white rounded-2xl shadow-2xl max-w-xl mx-auto px-6 py-8 space-y-6 border border-gray-200"
+        className="bg-white rounded-2xl shadow-2xl max-w-xl mx-auto px-8 py-10 space-y-6 border border-gray-200"
       >
         <div>
           <label
@@ -112,7 +114,8 @@ export default function HomePage() {
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800"
+            placeholder="Tapaiko naam..."
             required
           />
         </div>
@@ -125,15 +128,19 @@ export default function HomePage() {
             {["Janxu", "Janna"].map((opt) => (
               <label
                 key={opt}
-                className="inline-flex items-center cursor-pointer"
+                className={`inline-flex items-center px-4 py-2 rounded-lg border cursor-pointer transition duration-200 ${
+                  option === opt
+                    ? "bg-blue-100 border-blue-500 text-blue-700"
+                    : "bg-gray-100 border-gray-300 text-gray-700 hover:bg-gray-200"
+                }`}
               >
                 <input
                   type="checkbox"
                   checked={option === opt}
                   onChange={() => handleOptionClick(opt)}
-                  className="accent-blue-600"
+                  className="hidden"
                 />
-                <span className="ml-2">{opt}</span>
+                <span className="font-medium">{opt}</span>
               </label>
             ))}
           </div>
@@ -154,8 +161,9 @@ export default function HomePage() {
               id="reason"
               value={reason}
               onChange={(e) => setReason(e.target.value)}
-              className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800"
               rows={3}
+              placeholder="Tapai ko reason yaha lekhnu hos..."
               required
             />
           </div>
