@@ -1,4 +1,4 @@
-# 🏔️ Manali Trip Submit Form
+# Submit Form
 
 A simple and secure form built with **Next.js** and **Supabase** to collect responses from users. The project uses **Row Level Security (RLS)** in Supabase to ensure only valid inserts are allowed from the frontend.
 
