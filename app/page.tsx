@@ -15,6 +15,7 @@ export default function HomePage() {
   const [reason, setReason] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  const [submitterName, setSubmitterName] = useState<string | null>(null);
 
   function validateForm() {
     if (!name.trim()) {
@@ -60,6 +61,7 @@ export default function HomePage() {
       if (!res.ok) throw new Error("Failed to submit response");
 
       setSubmitted(true);
+      setSubmitterName(name.trim());
       setName("");
       setOption("");
       setReason("");
@@ -174,9 +176,10 @@ export default function HomePage() {
             {error}
           </p>
         )}
-        {submitted && (
+
+        {submitted && submitterName && (
           <p className="text-green-700 font-medium bg-green-100 px-4 py-2 rounded-lg border border-green-300">
-            Response submitted successfully!
+            Your response is submitted to <strong>{submitterName}</strong>.
           </p>
         )}
 
