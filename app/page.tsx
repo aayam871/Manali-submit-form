@@ -36,6 +36,10 @@ export default function HomePage() {
     return true;
   }
 
+  const handleOptionClick = (selected: string) => {
+    setOption((prev) => (prev === selected ? "" : selected));
+  };
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!validateForm()) return;
@@ -65,36 +69,42 @@ export default function HomePage() {
   }
 
   return (
-    <main className="min-h-screen px-4 py-10 bg-gradient-to-br from-gray-100 via-white to-gray-100 text-gray-900">
-      <h1 className="text-5xl font-extrabold text-center mb-10 text-blue-700 drop-shadow-md">
+    <main className="min-h-screen px-4 py-10 bg-gradient-to-br from-cyan-100 via-sky-200 to-blue-100 text-gray-900">
+      <h1 className="text-5xl font-extrabold text-center mb-10 text-blue-800 drop-shadow-md">
         Manali Trip 2082
       </h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4 mb-12 px-4">
-        {["images(1).jpg", "images(2).jpg", "images(3).jpg", "images(4).jpg", "images(5).jpg"].map(
-          (filename, index) => (
-            <div
-              key={index}
-              className="relative w-full h-48 rounded-lg overflow-hidden shadow-md hover:scale-105 transition-transform duration-300"
-            >
-              <Image
-                src={`/${filename}`}
-                alt={`Manali photo ${index + 1}`}
-                fill
-                className="object-cover"
-                priority={index === 0}
-              />
-            </div>
-          )
-        )}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-12 px-4">
+        {[
+          "images (2).jpg",
+          "images (3).jpg",
+          "images (4).jpg",
+          "images (5).jpg",
+        ].map((filename, index) => (
+          <div
+            key={index}
+            className="relative w-full h-48 rounded-xl overflow-hidden shadow-lg hover:scale-105 transition-transform duration-300 border-2 border-white hover:border-blue-300"
+          >
+            <Image
+              src={`/${filename}`}
+              alt={`Manali photo ${index + 2}`}
+              fill
+              className="object-cover"
+              priority={index === 0}
+            />
+          </div>
+        ))}
       </div>
 
       <form
         onSubmit={handleSubmit}
-        className="bg-white rounded-lg shadow-lg max-w-xl mx-auto px-6 py-8 space-y-6"
+        className="bg-white rounded-2xl shadow-2xl max-w-xl mx-auto px-6 py-8 space-y-6 border border-gray-200"
       >
         <div>
-          <label htmlFor="name" className="block font-semibold mb-1">
+          <label
+            htmlFor="name"
+            className="block font-semibold mb-1 text-gray-700"
+          >
             Name <span className="text-red-600">*</span>
           </label>
           <input
@@ -108,37 +118,36 @@ export default function HomePage() {
         </div>
 
         <div>
-          <label className="block font-semibold mb-2">Choose an option</label>
+          <label className="block font-semibold mb-2 text-gray-700">
+            Choose an option
+          </label>
           <div className="flex gap-6">
-            <label className="inline-flex items-center">
-              <input
-                type="radio"
-                name="option"
-                value="Janxu"
-                checked={option === "Janxu"}
-                onChange={() => setOption("Janxu")}
-                className="accent-blue-600"
-              />
-              <span className="ml-2">Janxu</span>
-            </label>
-            <label className="inline-flex items-center">
-              <input
-                type="radio"
-                name="option"
-                value="Janna"
-                checked={option === "Janna"}
-                onChange={() => setOption("Janna")}
-                className="accent-blue-600"
-              />
-              <span className="ml-2">Janna</span>
-            </label>
+            {["Janxu", "Janna"].map((opt) => (
+              <label
+                key={opt}
+                className="inline-flex items-center cursor-pointer"
+              >
+                <input
+                  type="checkbox"
+                  checked={option === opt}
+                  onChange={() => handleOptionClick(opt)}
+                  className="accent-blue-600"
+                />
+                <span className="ml-2">{opt}</span>
+              </label>
+            ))}
           </div>
         </div>
 
         {(option === "Janna" || option === "") && (
           <div>
-            <label htmlFor="reason" className="block font-semibold mb-1">
-              {option === "Janna" ? "Kina jannau?" : "Kina fix xaina? Kunai Reason?"}{" "}
+            <label
+              htmlFor="reason"
+              className="block font-semibold mb-1 text-gray-700"
+            >
+              {option === "Janna"
+                ? "Kina jannau?"
+                : "Kina fix xaina? Kunai Reason?"}{" "}
               <span className="text-red-600">*</span>
             </label>
             <textarea
@@ -152,14 +161,20 @@ export default function HomePage() {
           </div>
         )}
 
-        {error && <p className="text-red-600 font-medium">{error}</p>}
+        {error && (
+          <p className="text-red-600 font-medium bg-red-100 px-4 py-2 rounded-lg border border-red-300">
+            {error}
+          </p>
+        )}
         {submitted && (
-          <p className="text-green-600 font-medium">Response submitted successfully!</p>
+          <p className="text-green-700 font-medium bg-green-100 px-4 py-2 rounded-lg border border-green-300">
+            Response submitted successfully!
+          </p>
         )}
 
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white font-semibold py-2 rounded hover:bg-blue-700 transition-colors duration-200"
+          className="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 transition-colors duration-200"
         >
           Submit
         </button>
